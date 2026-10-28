@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nekohosting — cloud hosting that lands on its feet</title>
+<meta name="description" content="Global edge hosting, managed databases and zero-downtime deploys. Nine lives included.">
+<meta name="theme-color" content="#fffaf5">
+<meta property="og:title" content="nekohosting — cloud hosting that lands on its feet">
+<meta property="og:description" content="Global edge hosting, managed databases and zero-downtime deploys. Nine lives included.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M9 26 L15 6 L28 17 L36 17 L49 6 L55 26 V48 a10 10 0 0 1-10 10 H19 a10 10 0 0 1-10-10z' fill='%23ff6fae' stroke='%23231a33' stroke-width='4' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='36' r='4.5' fill='%23231a33'/%3E%3Ccircle cx='40' cy='36' r='4.5' fill='%23231a33'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#fffaf5;
+  --bg-2:#fff2f8;
+  --bg-3:#f5f0ff;
+  --ink:#231a33;
+  --ink-2:#463b58;
+  --muted:#73688a;
+  --line:#ece2f1;
+  --card:#ffffff;
+  --pink:#ff6fae;
+  --pink-ink:#c92f74;
+  --pink-soft:#ffe1ee;
+  --lilac:#a98bff;
+  --lilac-soft:#efe9ff;
+  --mint:#3fd6ae;
+  --mint-soft:#dbf9f0;
+  --sun:#ffcf5c;
+  --sun-soft:#fff3d1;
+  --term:#1d1530;
+  --shadow:4px 4px 0 var(--ink);
+  --font-display:"M PLUS Rounded 1c", ui-rounded, system-ui, sans-serif;
+  --font-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+html{color-scheme:light;scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;letter-spacing:-.015em;margin:0}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+button{font:inherit;color:inherit}
+::selection{background:var(--pink-soft)}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:999px;border:2px solid var(--ink);font-weight:700;font-size:15px;line-height:1.2;cursor:pointer;white-space:nowrap;transition:transform .12s ease, box-shadow .12s ease, background .15s ease}
+.btn-primary{background:var(--pink);color:var(--ink);box-shadow:var(--shadow)}
+.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn-primary:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn-ghost{background:var(--card);color:var(--ink)}
+.btn-ghost:hover{background:var(--lilac-soft)}
+.btn-sm{padding:9px 16px;font-size:14px;box-shadow:3px 3px 0 var(--ink)}
+.btn-w{width:100%}
+
+/* ---------- announcement ---------- */
+.announce{background:var(--ink);color:#f6efff;font:500 12.5px/1 var(--font-mono);overflow:hidden;white-space:nowrap}
+.announce-track{display:flex;width:max-content;animation:marquee 48s linear infinite}
+.announce:hover .announce-track{animation-play-state:paused}
+.announce-group{display:flex;gap:56px;padding:11px 28px}
+.announce b{color:var(--pink);font-weight:600}
+.announce .ok{color:var(--mint)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,250,245,.82);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px}
+.brand-word{font:500 21px/1 var(--font-display);letter-spacing:-.02em}
+.brand-word b{font-weight:800}
+.brand-jp{font:700 10px/1 var(--font-display);color:var(--pink-ink);border:1.5px solid currentColor;border-radius:5px;padding:3px 4px;transform:translateY(-6px)}
+.nav-links{display:flex;gap:30px;font-size:15px;font-weight:500;color:var(--ink-2)}
+.nav-links a:hover{color:var(--pink-ink)}
+.nav-cta{display:flex;align-items:center;gap:18px}
+.nav-login{font-size:15px;font-weight:600}
+.nav-login:hover{color:var(--pink-ink)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:72px 0 120px;overflow:clip}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--pink-soft) 1.4px, transparent 1.7px);background-size:18px 18px;-webkit-mask:radial-gradient(ellipse 70% 80% at 80% 30%, #000 10%, transparent 70%);mask:radial-gradient(ellipse 70% 80% at 80% 30%, #000 10%, transparent 70%);pointer-events:none}
+.hero-in{position:relative;display:grid;grid-template-columns:1.02fr 1fr;gap:64px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:5px 14px 5px 5px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;font-size:14px;font-weight:500;color:var(--ink-2);transition:border-color .15s}
+.pill:hover{border-color:var(--ink)}
+.pill-new{font:700 11px/1 var(--font-mono);letter-spacing:.08em;background:var(--mint);color:var(--ink);padding:5px 9px;border-radius:999px}
+.hero h1{text-wrap:balance;font-size:clamp(2.6rem,5vw,3.85rem);font-weight:800;letter-spacing:-.03em;line-height:1.04;margin:22px 0 22px}
+.mark{background:linear-gradient(transparent 60%, var(--pink-soft) 60%, var(--pink-soft) 92%, transparent 92%);padding:0 .06em}
+.lead{font-size:1.16rem;color:var(--ink-2);max-width:34em}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px;margin:34px 0 22px}
+.micro{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13.5px;color:var(--muted)}
+.micro li{display:flex;align-items:center;gap:7px}
+.micro li::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--mint-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M4 7.2l2 2 4-4.4' fill='none' stroke='%23178a6c' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+
+.hero-visual{position:relative}
+.panel{position:relative;aspect-ratio:1/1;border:2px solid var(--ink);border-radius:30px;background:linear-gradient(155deg,#ffd9ea 0%,#efe6ff 55%,#d8f8ef 100%);box-shadow:7px 7px 0 var(--ink);overflow:hidden;isolation:isolate}
+.speed{position:absolute;inset:-30%;z-index:-1;background:repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,.95) 0deg 1.4deg, transparent 1.4deg 6.5deg);-webkit-mask:radial-gradient(circle at 50% 50%, transparent 0 22%, #000 48%);mask:radial-gradient(circle at 50% 50%, transparent 0 22%, #000 48%);opacity:.8}
+.halftone{position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(35,26,51,.22) 1.3px, transparent 1.6px);background-size:11px 11px;-webkit-mask:linear-gradient(135deg,#000 0%,transparent 34%);mask:linear-gradient(135deg,#000 0%,transparent 34%)}
+.sfx{position:absolute;font-family:var(--font-display);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--pink);-webkit-text-stroke:2.5px var(--ink);paint-order:stroke fill;pointer-events:none;user-select:none}
+.sfx-1{top:8%;left:7%;font-size:clamp(40px,5.6vw,66px);transform:rotate(-12deg)}
+.sfx-2{right:5%;top:66%;font-size:clamp(22px,3vw,34px);color:var(--sun);transform:rotate(12deg)}
+.spark{position:absolute;color:#fff;font-size:22px;line-height:1;-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill;animation:twinkle 2.6s ease-in-out infinite;pointer-events:none}
+.spark.s1{top:30%;left:12%;animation-delay:.2s}
+.spark.s2{top:20%;right:30%;font-size:14px;animation-delay:1.1s}
+.spark.s3{bottom:18%;right:14%;font-size:26px;color:var(--pink);animation-delay:.6s}
+.spark.s4{bottom:34%;left:8%;font-size:13px;animation-delay:1.8s}
+@keyframes twinkle{0%,100%{transform:scale(.6) rotate(0);opacity:.5}50%{transform:scale(1.1) rotate(20deg);opacity:1}}
+.chip{position:absolute;top:5%;right:5%;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;background:var(--card);border:2px solid var(--ink);border-radius:999px;font:500 12px/1 var(--font-mono);box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(63,214,174,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(63,214,174,0)}100%{box-shadow:0 0 0 0 rgba(63,214,174,0)}}
+.mascot-btn{position:absolute;left:56%;top:45%;width:56%;transform:translate(-50%,-50%);background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mascot-btn:focus-visible{outline-offset:8px;border-radius:24px}
+.mascot{width:100%;height:auto;overflow:visible}
+.mascot .bob{animation:bob 3.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.mascot .shadow{animation:shadow 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes shadow{50%{transform:scaleX(.88);opacity:.7}}
+.mascot .eye{transform-box:fill-box;transform-origin:50% 55%;transition:transform .07s ease}
+.mascot.blink .eye{transform:scaleY(.06)}
+.mascot .happy{opacity:0;transition:opacity .1s}
+.mascot.is-happy .eye{opacity:0}
+.mascot.is-happy .happy{opacity:1}
+.mascot .led{animation:led 1.8s steps(2,jump-none) infinite}
+.mascot .led:nth-of-type(2){animation-duration:1.1s;animation-delay:.3s}
+.mascot .led:nth-of-type(3){animation-duration:2.7s;animation-delay:.9s}
+@keyframes led{50%{opacity:.25}}
+.bubble{position:absolute;top:17%;right:6%;max-width:44%;padding:10px 14px;background:var(--card);border:2px solid var(--ink);border-radius:16px;font:700 14px/1.35 var(--font-display);box-shadow:3px 3px 0 var(--ink);opacity:0;transform:translateY(6px) scale(.96);transform-origin:bottom left;transition:opacity .18s, transform .18s;pointer-events:none;z-index:2}
+.bubble::after{content:"";position:absolute;left:18px;bottom:-9px;width:14px;height:14px;background:var(--card);border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) skew(8deg,8deg)}
+.bubble.show{opacity:1;transform:none}
+
+.term{position:absolute;left:-36px;bottom:-56px;width:min(360px,78%);background:var(--term);color:#f3edff;border:2px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);overflow:hidden;z-index:3}
+.term-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#2a2042;border-bottom:1px solid #3a2f55;font:500 11.5px/1 var(--font-mono);color:#a99cc4}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:var(--pink)}
+.term-bar i:nth-child(2){background:var(--sun)}
+.term-bar i:nth-child(3){background:var(--mint)}
+.term-bar span{margin-left:8px}
+.term-body{margin:0;padding:14px 16px 16px;font:400 12.5px/1.75 var(--font-mono);white-space:pre;overflow:hidden;min-height:calc(1.75em * 8 + 30px)}
+.term-body .l{display:block;animation:lineIn .2s ease both}
+@keyframes lineIn{from{opacity:0;transform:translateY(3px)}}
+.t-mute{color:#8f82ab}.t-pink{color:var(--pink)}.t-mint{color:var(--mint)}.t-sun{color:var(--sun)}.t-lilac{color:#c8b6ff}
+.t-url{color:#fff;text-decoration:underline;text-decoration-color:var(--pink);text-underline-offset:3px}
+.cursor{display:inline-block;width:.6em;height:1.1em;vertical-align:-2px;background:var(--pink);animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+
+/* ---------- logos ---------- */
+.logos{padding:12px 0 56px}
+.logos p{text-align:center;color:var(--muted);font-size:14.5px;margin-bottom:22px}
+.logo-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:16px 48px;color:#8a809c}
+.lg{font-size:20px;white-space:nowrap;line-height:1}
+.lg-1{font:800 17px/1 var(--font-display);letter-spacing:.2em}
+.lg-2{font:italic 600 22px/1 Georgia, "Times New Roman", serif;letter-spacing:-.01em}
+.lg-3{font:600 18px/1 var(--font-mono)}
+.lg-4{font:500 19px/1 var(--font-body);letter-spacing:.32em;text-transform:uppercase}
+.lg-5{font:700 22px/1 var(--font-body);letter-spacing:-.04em}
+.lg-6{font:700 18px/1 var(--font-display);display:inline-flex;align-items:center;gap:6px}
+.lg-6::before{content:"";width:16px;height:16px;border-radius:4px;background:currentColor}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink);border-radius:22px;background:var(--card);box-shadow:var(--shadow);overflow:hidden}
+.stats > div{padding:26px 28px;border-left:1.5px dashed var(--line)}
+.stats > div:first-child{border-left:0}
+.stats b{display:block;font:800 clamp(1.9rem,3.2vw,2.5rem)/1 var(--font-display);letter-spacing:-.03em}
+.stats span{display:block;margin-top:8px;color:var(--muted);font-size:14.5px}
+.stats sup{font-size:.7em;color:var(--pink-ink)}
+
+/* ---------- section scaffolding ---------- */
+.sec{padding:112px 0}
+.sec-alt{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-head{max-width:660px;margin:0 auto 56px;text-align:center}
+.sec-head h2,.h2{font-size:clamp(2rem,4vw,3.05rem);font-weight:800;letter-spacing:-.025em;margin:16px 0 14px}
+.sec-head p,.sub{color:var(--muted);font-size:1.08rem}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 12px/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--pink-ink)}
+.eyebrow .jp{font:800 12.5px/1 var(--font-display);letter-spacing:.06em;background:var(--ink);color:var(--bg);padding:6px 8px;border-radius:7px}
+
+/* ---------- features ---------- */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:28px 28px 30px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+.feat:hover{border-color:var(--ink);transform:translate(-2px,-2px);box-shadow:var(--shadow)}
+.kanji{display:grid;place-items:center;width:54px;height:54px;border:2px solid var(--ink);border-radius:15px;font:800 27px/1 var(--font-display);margin-bottom:22px;transform:rotate(-4deg)}
+.feat:nth-child(even) .kanji{transform:rotate(3deg)}
+.k-pink{background:var(--pink-soft)}.k-lilac{background:var(--lilac-soft)}.k-mint{background:var(--mint-soft)}.k-sun{background:var(--sun-soft)}
+.feat h3{font-size:1.28rem;font-weight:800;margin-bottom:10px}
+.feat p{color:var(--ink-2);font-size:15.5px}
+
+/* ---------- domains ---------- */
+.dom{padding:0 0 112px}
+.dom-card{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:start;padding:48px;border:2px solid var(--ink);border-radius:30px;background:linear-gradient(135deg,var(--lilac-soft),var(--pink-soft));box-shadow:7px 7px 0 var(--ink);position:relative;overflow:hidden}
+.dom-card::after{content:"ドメイン";position:absolute;right:-10px;bottom:-26px;font:800 120px/1 var(--font-display);color:transparent;-webkit-text-stroke:2px rgba(35,26,51,.07);pointer-events:none;white-space:nowrap}
+.dom-copy .h2{margin-top:16px}
+.dom-copy .sub{max-width:28em}
+.dom-form{position:relative;z-index:1;min-width:0}
+.dom-input{display:flex;gap:8px;padding:6px;background:var(--card);border:2px solid var(--ink);border-radius:999px}
+.dom-input input{flex:1;min-width:0;border:0;outline:0;background:transparent;padding:0 16px;font:500 16px/1 var(--font-mono);color:var(--ink)}
+.dom-input:focus-within{box-shadow:0 0 0 4px rgba(169,139,255,.35)}
+.dom-input .btn{box-shadow:none;padding:11px 20px}
+.dom-input .btn:hover,.dom-input .btn:active{transform:none;box-shadow:none;background:#ff86bc}
+.dom-results{margin-top:14px;background:var(--card);border:1.5px solid var(--ink);border-radius:18px;overflow:hidden}
+.dom-results li{display:flex;align-items:center;gap:12px;padding:12px 14px 12px 18px;border-top:1px solid var(--line);min-height:56px}
+.dom-results li:first-child{border-top:0}
+.dom-name{font:500 15px/1.3 var(--font-mono);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dom-name b{font-weight:600;color:var(--pink-ink)}
+.tag{font:700 10.5px/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 7px;border-radius:6px;background:var(--sun-soft);color:#8a5a00;border:1px solid #f0d58f}
+.dom-price{font:600 14px/1 var(--font-body);white-space:nowrap}
+.dom-price small{color:var(--muted);font-weight:500}
+.dom-taken{font-size:13.5px;color:var(--muted);white-space:nowrap}
+.dom-results .btn{padding:7px 14px;font-size:13px;box-shadow:2px 2px 0 var(--ink)}
+.dom-results li.off .dom-name{color:var(--muted)}
+.dom-results li.off .dom-name b{color:var(--muted)}
+.dom-note{margin-top:12px;font-size:13px;color:var(--muted);padding-left:6px}
+
+/* ---------- network ---------- */
+.net{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+.net-copy .sub{margin-bottom:28px}
+.facts li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-top:1px dashed #e7d4e1;font-size:15.5px;color:var(--ink-2)}
+.facts li:last-child{border-bottom:1px dashed #e7d4e1}
+.facts b{font:800 14px/1.6 var(--font-mono);color:var(--pink-ink);min-width:28px}
+.net-card{background:var(--card);border:2px solid var(--ink);border-radius:24px;box-shadow:7px 7px 0 var(--ink);overflow:hidden}
+.net-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;border-bottom:1.5px solid var(--line);background:var(--bg-3)}
+.net-top h3{font-size:15px;font-weight:800;display:flex;align-items:center;gap:9px}
+.net-top span{font:500 12px/1 var(--font-mono);color:var(--muted)}
+.net-head,.net-list li{display:grid;grid-template-columns:1.25fr 1.6fr 92px;align-items:center;gap:12px;padding:0 22px}
+.net-head{font:600 11px/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:14px;padding-bottom:10px}
+.net-list li{padding-top:12px;padding-bottom:12px;border-top:1px solid var(--line)}
+.where{display:flex;flex-direction:column;gap:2px;min-width:0}
+.code{font:600 13.5px/1.2 var(--font-mono)}
+.city{font-size:13px;color:var(--muted)}
+.st{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2)}
+.st i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--mint)}
+.st.new i{background:var(--lilac)}
+.st.nap i{background:var(--sun);animation:nap 3s ease-in-out infinite}
+@keyframes nap{50%{opacity:.35}}
+.st em{font-style:normal;font:700 10px/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:5px;background:var(--lilac-soft);color:#5a3fc0}
+.lat{text-align:right;font:500 13px/1 var(--font-mono);color:var(--muted)}
+.lat b{font-weight:600;color:var(--ink);font-size:14px}
+.r{text-align:right}
+.net-foot{padding:12px 22px;border-top:1.5px solid var(--line);font:500 12px/1.4 var(--font-mono);color:var(--muted);background:var(--bg-3)}
+
+/* ---------- pricing ---------- */
+.toggle{display:inline-flex;padding:4px;margin-top:26px;border:2px solid var(--ink);border-radius:999px;background:var(--card)}
+.toggle button{border:0;background:transparent;padding:9px 18px;border-radius:999px;font-weight:600;font-size:14px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.toggle small{font-weight:600;color:var(--pink-ink);margin-left:4px}
+.toggle button[aria-pressed="true"] small{color:var(--pink)}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+.plan{position:relative;display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:28px 24px}
+.plan.hot{border:2px solid var(--ink);box-shadow:7px 7px 0 var(--ink);background:linear-gradient(180deg,#fff 0%,#fff6fa 100%)}
+.sticker{position:absolute;top:-15px;right:18px;padding:7px 12px;background:var(--sun);border:2px solid var(--ink);border-radius:10px;font:800 12.5px/1 var(--font-display);transform:rotate(5deg);box-shadow:2px 2px 0 var(--ink)}
+.plan-top{display:flex;align-items:baseline;gap:10px}
+.plan h3{font-size:1.4rem;font-weight:800}
+.plan-jp{font:700 13px/1 var(--font-display);color:var(--muted)}
+.plan-desc{margin-top:8px;color:var(--muted);font-size:14.5px;min-height:4.8em}
+.plan code{font:500 13px/1 var(--font-mono);background:var(--pink-soft);padding:2px 5px;border-radius:5px}
+.price{display:flex;align-items:flex-start;gap:2px;min-height:54px;margin-top:18px;font-family:var(--font-display)}
+.price .cur{font-size:22px;font-weight:700;margin-top:6px}
+.price .amt{font-size:48px;font-weight:800;line-height:1;letter-spacing:-.03em}
+.price .per{align-self:flex-end;margin:0 0 6px 4px;font:500 14px/1 var(--font-body);color:var(--muted)}
+.price.custom .amt{font-size:40px;padding-top:6px}
+.billing{font-size:13px;color:var(--muted);margin:8px 0 22px;min-height:1.4em}
+.feats{margin-top:24px;display:grid;gap:11px;font-size:14.5px;color:var(--ink-2)}
+.feats li{display:flex;gap:10px;align-items:flex-start;line-height:1.45}
+.feats li::before{content:"";flex:none;width:17px;height:17px;margin-top:1px;border-radius:50%;background:var(--pink-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M5 8.8l2.3 2.3 4.7-5' fill='none' stroke='%23c92f74' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/17px no-repeat}
+.plan-fine{max-width:760px;margin:36px auto 0;text-align:center;font-size:13px;color:var(--muted)}
+
+/* ---------- testimonials ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.quote{margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:28px;padding:30px;background:var(--card);border:1.5px solid var(--line);border-radius:24px}
+.quote blockquote{margin:0;font-size:16.5px;line-height:1.6;color:var(--ink)}
+.quote figcaption{display:flex;align-items:center;gap:14px}
+.ava{position:relative;flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);font:800 15px/1 var(--font-display)}
+.ava::before,.ava::after{content:"";position:absolute;top:-7px;width:16px;height:16px;background:var(--ink);clip-path:polygon(50% 0,100% 100%,0 100%);z-index:-1}
+.ava::before{left:1px;transform:rotate(-24deg)}
+.ava::after{right:1px;transform:rotate(24deg)}
+.quote figcaption > span:last-child{display:flex;flex-direction:column;line-height:1.35}
+.quote figcaption b{font-size:15px}
+.quote figcaption small{font-size:13.5px;color:var(--muted)}
+.a-pink{background:var(--pink-soft)}.a-mint{background:var(--mint-soft)}.a-lilac{background:var(--lilac-soft)}
+.quote figcaption{isolation:isolate}
+
+/* ---------- faq ---------- */
+.faq{max-width:780px;margin:0 auto}
+.faq details{border-top:1.5px solid var(--line)}
+.faq details:last-child{border-bottom:1.5px solid var(--line)}
+.faq summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 4px;cursor:pointer;list-style:none;font:700 1.12rem/1.35 var(--font-display)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:30px;height:30px;border:2px solid var(--ink);border-radius:50%;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath d='M15 9v12M9 15h12' stroke='%23231a33' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") center/26px no-repeat;transition:transform .2s ease, background-color .2s}
+.faq details[open] summary::after{transform:rotate(45deg);background-color:var(--pink-soft)}
+.faq summary:hover{color:var(--pink-ink)}
+.faq details p{padding:0 56px 24px 4px;color:var(--ink-2);font-size:16px}
+
+/* ---------- cta ---------- */
+.cta{padding:0 0 112px}
+.cta-in{position:relative;overflow:hidden;text-align:center;padding:88px 32px;border-radius:34px;background:var(--ink);color:var(--bg);border:2px solid var(--ink);box-shadow:7px 7px 0 var(--pink)}
+.cta-in::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,111,174,.35) 1.4px, transparent 1.8px);background-size:16px 16px;-webkit-mask:radial-gradient(ellipse at 50% 120%, #000 0%, transparent 65%);mask:radial-gradient(ellipse at 50% 120%, #000 0%, transparent 65%)}
+.cta-jp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:800 clamp(140px,26vw,300px)/1 var(--font-display);color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.07);white-space:nowrap;pointer-events:none;user-select:none}
+.cta h2{position:relative;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.03em}
+.cta p{position:relative;margin:16px auto 34px;max-width:30em;color:#cfc4e3;font-size:1.1rem}
+.cta-btns{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.cta .btn-primary{box-shadow:4px 4px 0 #000}
+.cta .btn-ghost{background:transparent;color:var(--bg);border-color:#6e6288}
+.cta .btn-ghost:hover{background:rgba(255,255,255,.08);border-color:var(--bg)}
+
+/* ---------- footer ---------- */
+.foot{border-top:1px solid var(--line);padding:64px 0 36px;font-size:14.5px}
+.foot-grid{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:32px}
+.foot-brand p{color:var(--muted);margin:16px 0 18px;max-width:22em}
+.status-btn{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--card);font-size:13.5px;font-weight:600;cursor:pointer}
+.status-btn:hover{border-color:var(--ink)}
+.foot h4{margin:0 0 14px;font:700 12px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.foot ul{display:grid;gap:10px}
+.foot ul a{color:var(--ink-2)}
+.foot ul a:hover{color:var(--pink-ink)}
+.hiring{font:700 10px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 6px;border-radius:5px;background:var(--mint-soft);color:#14745a;margin-left:6px;vertical-align:1px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px}
+.badges span{font:600 11.5px/1 var(--font-mono);letter-spacing:.06em;padding:8px 11px;border:1.5px solid var(--line);border-radius:8px;color:var(--muted);background:var(--card)}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;margin-top:24px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+.foot-bottom .jp{font-family:var(--font-display);font-weight:700}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:24px;z-index:100;display:flex;align-items:flex-start;gap:12px;width:max-content;max-width:calc(100vw - 32px);padding:14px 18px;background:var(--ink);color:#f6efff;border:2px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--pink);font-size:14.5px;line-height:1.45;transform:translate(-50%,140%);opacity:0;transition:transform .32s cubic-bezier(.2,.9,.3,1.2), opacity .2s;pointer-events:none}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.toast-ico{flex:none;font:800 15px/1.45 var(--font-display);color:var(--pink)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .plans{grid-template-columns:repeat(2,1fr);gap:24px}
+  .plan-desc{min-height:3.2em}
+  .foot-grid{grid-template-columns:repeat(4,1fr)}
+  .foot-brand{grid-column:1/-1}
+}
+@media (max-width:960px){
+  .hero{padding:48px 0 120px}
+  .hero-in{grid-template-columns:1fr;gap:56px}
+  .hero-visual{max-width:520px;width:100%;margin:0 auto}
+  .term{left:-16px}
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .dom-card{grid-template-columns:minmax(0,1fr);gap:28px;padding:36px}
+  .net{grid-template-columns:1fr;gap:44px}
+  .quotes{grid-template-columns:1fr;max-width:620px;margin:0 auto}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats > div:nth-child(3){border-left:0}
+  .stats > div:nth-child(n+3){border-top:1.5px dashed var(--line)}
+}
+@media (max-width:820px){
+  .nav-links{display:none}
+}
+@media (max-width:620px){
+  .wrap{padding:0 16px}
+  .sec{padding:80px 0}
+  .dom,.cta{padding-bottom:80px}
+  .hero{padding:36px 0 56px}
+  .hero h1{font-size:clamp(2.3rem,10vw,2.9rem)}
+  .lead{font-size:1.05rem}
+  .hero-btns .btn{flex:1 1 100%}
+  .term{position:relative;left:auto;bottom:auto;width:auto;margin:-40px 14px 0}
+  .term-body{font-size:11.5px;min-height:auto}
+  .sfx-1{top:15%;left:6%}
+  .feat-grid,.plans{grid-template-columns:1fr}
+  .plan-desc{min-height:0}
+  .stats > div{padding:20px}
+  .dom-card{padding:24px 18px;border-radius:24px}
+  .dom-results li{flex-wrap:wrap;row-gap:6px}
+  .dom-name{flex-basis:100%}
+  .dom-results li .spacer{flex:1}
+  .net-head{display:none}
+  .net-head,.net-list li{grid-template-columns:1fr auto;padding-left:16px;padding-right:16px}
+  .net-list .st{grid-column:1;grid-row:2;font-size:12.5px}
+  .net-list .lat{grid-column:2;grid-row:1/3}
+  .net-list li{row-gap:6px}
+  .net-top,.net-foot{padding-left:16px;padding-right:16px}
+  .faq details p{padding-right:4px}
+  .cta-in{padding:64px 20px;border-radius:26px}
+  .foot-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-login{display:none}
+  .brand-jp{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="announce" role="region" aria-label="Announcements">
+  <div class="announce-track">
+    <div class="announce-group">
+      <span>✦ <b>nya-east-2 (Osaka)</b> is now generally available</span>
+      <span>Scheduled maintenance: daily, 14:00–16:00 JST (nap window)</span>
+      <span>Housecat plan now includes 9 lives at no extra cost</span>
+      <span>We're hiring Site Reliability Engineers — fur-tolerant preferred</span>
+      <span><span class="ok">●</span> All systems purring</span>
+    </div>
+    <div class="announce-group" aria-hidden="true">
+      <span>✦ <b>nya-east-2 (Osaka)</b> is now generally available</span>
+      <span>Scheduled maintenance: daily, 14:00–16:00 JST (nap window)</span>
+      <span>Housecat plan now includes 9 lives at no extra cost</span>
+      <span>We're hiring Site Reliability Engineers — fur-tolerant preferred</span>
+      <span><span class="ok">●</span> All systems purring</span>
+    </div>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="nekohosting home">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M9 26 L15 6 L28 17 L36 17 L49 6 L55 26 V48 a10 10 0 0 1-10 10 H19 a10 10 0 0 1-10-10z" fill="#ff6fae" stroke="#231a33" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="24" cy="35" r="4.5" fill="#231a33"/><circle cx="40" cy="35" r="4.5" fill="#231a33"/>
+        <circle cx="25.5" cy="33.5" r="1.4" fill="#fff"/><circle cx="41.5" cy="33.5" r="1.4" fill="#fff"/>
+        <path d="M27 43 q2.5 3 5 0 q2.5 3 5 0" fill="none" stroke="#231a33" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-word"><b>neko</b>hosting</span>
+      <span class="brand-jp" aria-hidden="true">ネコ</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#features">Product</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#network">Network</a>
+      <a href="#" data-toast="docs">Docs</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="nav-login" data-toast="login">Log in</a>
+      <a href="#" class="btn btn-primary btn-sm" data-toast="signup">Get started</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <a href="#network" class="pill"><span class="pill-new">NEW</span> Osaka region is now live <span aria-hidden="true">→</span></a>
+      <h1>Cloud hosting that always <span class="mark">lands on its feet.</span></h1>
+      <p class="lead">Deploy apps, databases and static sites to a global edge network in seconds. Every instance comes with nine lives, daily naps, and a support team that answers in minutes.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn btn-primary" data-toast="signup">Start deploying — free</a>
+        <a href="#" class="btn btn-ghost" data-toast="docs">Read the docs</a>
+      </div>
+      <ul class="micro">
+        <li>No credit card required</li>
+        <li>Cancel anytime</li>
+        <li>Nine lives included</li>
+      </ul>
+    </div>
+
+    <div class="hero-visual">
+      <div class="panel">
+        <div class="speed" aria-hidden="true"></div>
+        <div class="halftone" aria-hidden="true"></div>
+        <span class="sfx sfx-1" aria-hidden="true">ニャ</span>
+        <span class="sfx sfx-2" aria-hidden="true">キラ</span>
+        <span class="spark s1" aria-hidden="true">✦</span>
+        <span class="spark s2" aria-hidden="true">✦</span>
+        <span class="spark s3" aria-hidden="true">✦</span>
+        <span class="spark s4" aria-hidden="true">✦</span>
+        <div class="chip" title="Uptime of instance nh-01"><span class="dot"></span>nh-01 · up <span id="uptime">—</span></div>
+        <div class="bubble" id="bubble" role="status" aria-live="polite"></div>
+
+        <button class="mascot-btn" id="mascotBtn" type="button" aria-label="Pet the server">
+          <svg class="mascot" id="mascot" viewBox="0 0 360 420" aria-hidden="true">
+            <defs>
+              <linearGradient id="g-body" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ece3ff"/>
+              </linearGradient>
+              <radialGradient id="g-iris" cx="50%" cy="28%" r="78%">
+                <stop offset="0" stop-color="#ffb8da"/><stop offset=".42" stop-color="#b385ff"/><stop offset="1" stop-color="#341a66"/>
+              </radialGradient>
+            </defs>
+            <ellipse class="shadow" cx="180" cy="404" rx="118" ry="11" fill="rgba(35,26,51,.16)"/>
+            <g class="bob">
+              <!-- tail / power cable -->
+              <path d="M298 312 C 352 314, 356 246, 332 216 S 302 160, 330 128" fill="none" stroke="#231a33" stroke-width="12" stroke-linecap="round"/>
+              <path d="M298 312 C 352 314, 356 246, 332 216 S 302 160, 330 128" fill="none" stroke="#c9b6ff" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 14"/>
+              <g transform="rotate(14 332 112)">
+                <path d="M324 98 v-12 M340 98 v-12" stroke="#231a33" stroke-width="5" stroke-linecap="round"/>
+                <rect x="318" y="96" width="28" height="30" rx="7" fill="#ffcf5c" stroke="#231a33" stroke-width="4.5"/>
+              </g>
+              <!-- ears -->
+              <path d="M66 128 L92 28 L164 96 Z" fill="url(#g-body)" stroke="#231a33" stroke-width="5.5" stroke-linejoin="round"/>
+              <path d="M88 112 L100 58 L140 96 Z" fill="#ffb3d6"/>
+              <path d="M294 128 L268 28 L196 96 Z" fill="url(#g-body)" stroke="#231a33" stroke-width="5.5" stroke-linejoin="round"/>
+              <path d="M272 112 L260 58 L220 96 Z" fill="#ffb3d6"/>
+              <!-- body -->
+              <rect x="46" y="82" width="268" height="292" rx="44" fill="url(#g-body)" stroke="#231a33" stroke-width="5.5"/>
+              <path d="M70 110 q4 -14 22 -16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+              <!-- whiskers -->
+              <g stroke="#231a33" stroke-width="3.5" stroke-linecap="round">
+                <path d="M54 214 L14 204"/><path d="M54 228 L10 230"/><path d="M56 242 L18 256"/>
+                <path d="M306 214 L346 204"/><path d="M306 228 L350 230"/><path d="M304 242 L342 256"/>
+              </g>
+              <!-- eyes -->
+              <g class="eye">
+                <ellipse cx="126" cy="182" rx="30" ry="38" fill="#231a33"/>
+                <ellipse class="iris" cx="126" cy="186" rx="23.5" ry="31" fill="url(#g-iris)"/>
+                <g class="pupil"><ellipse cx="126" cy="190" rx="10" ry="14" fill="#1a0e33"/></g>
+                <circle cx="116" cy="170" r="8.5" fill="#fff"/>
+                <circle cx="135" cy="201" r="3.6" fill="#fff"/>
+                <path d="M93 154 Q126 128 160 150" fill="none" stroke="#231a33" stroke-width="8" stroke-linecap="round"/>
+                <path d="M96 156 L84 147" stroke="#231a33" stroke-width="5.5" stroke-linecap="round"/>
+              </g>
+              <g class="eye">
+                <ellipse cx="234" cy="182" rx="30" ry="38" fill="#231a33"/>
+                <ellipse class="iris" cx="234" cy="186" rx="23.5" ry="31" fill="url(#g-iris)"/>
+                <g class="pupil"><ellipse cx="234" cy="190" rx="10" ry="14" fill="#1a0e33"/></g>
+                <circle cx="224" cy="170" r="8.5" fill="#fff"/>
+                <circle cx="243" cy="201" r="3.6" fill="#fff"/>
+                <path d="M200 150 Q234 128 267 154" fill="none" stroke="#231a33" stroke-width="8" stroke-linecap="round"/>
+                <path d="M264 156 L276 147" stroke="#231a33" stroke-width="5.5" stroke-linecap="round"/>
+              </g>
+              <g class="happy" fill="none" stroke="#231a33" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M100 192 L126 166 L152 192"/>
+                <path d="M208 192 L234 166 L260 192"/>
+              </g>
+              <!-- blush -->
+              <g fill="#ff9cc8" opacity=".75">
+                <ellipse cx="86" cy="234" rx="21" ry="10"/><ellipse cx="274" cy="234" rx="21" ry="10"/>
+              </g>
+              <g stroke="#ff5fa2" stroke-width="2.6" stroke-linecap="round">
+                <path d="M76 239 l7 -10"/><path d="M85 239 l7 -10"/><path d="M94 239 l7 -10"/>
+                <path d="M264 239 l7 -10"/><path d="M273 239 l7 -10"/><path d="M282 239 l7 -10"/>
+              </g>
+              <!-- mouth -->
+              <path d="M162 226 q9 11 18 0 q9 11 18 0" fill="none" stroke="#231a33" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- drive panel -->
+              <rect x="74" y="270" width="212" height="82" rx="16" fill="#f6f1ff" stroke="#231a33" stroke-width="4.5"/>
+              <rect x="92" y="284" width="138" height="11" rx="5.5" fill="#dccdfb"/>
+              <rect x="92" y="305" width="138" height="11" rx="5.5" fill="#dccdfb"/>
+              <rect x="92" y="326" width="96" height="11" rx="5.5" fill="#dccdfb"/>
+              <circle class="led" cx="262" cy="290" r="6.5" fill="#3fd6ae" stroke="#231a33" stroke-width="2.5"/>
+              <circle class="led" cx="262" cy="311" r="6.5" fill="#ff6fae" stroke="#231a33" stroke-width="2.5"/>
+              <circle class="led" cx="262" cy="332" r="6.5" fill="#ffcf5c" stroke="#231a33" stroke-width="2.5"/>
+              <!-- paws -->
+              <g fill="#fff" stroke="#231a33" stroke-width="5.5">
+                <ellipse cx="118" cy="376" rx="36" ry="17"/>
+                <ellipse cx="242" cy="376" rx="36" ry="17"/>
+              </g>
+              <g stroke="#231a33" stroke-width="3.5" stroke-linecap="round">
+                <path d="M108 368 v9"/><path d="M128 368 v9"/>
+                <path d="M232 368 v9"/><path d="M252 368 v9"/>
+              </g>
+            </g>
+          </svg>
+        </button>
+      </div>
+
+      <div class="term" role="img" aria-label="Terminal: npx neko deploy, deployed to nya-east-1">
+        <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>~/my-app — zsh</span></div>
+        <pre class="term-body" id="term" aria-hidden="true"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logos" aria-label="Customers">
+  <div class="wrap">
+    <p>Powering over 9,000 teams, from weekend projects to publicly traded companies</p>
+    <div class="logo-row" aria-hidden="true">
+      <span class="lg lg-1">MOCHI LABS</span>
+      <span class="lg lg-2">Tanuki Capital</span>
+      <span class="lg lg-3">onigiri/sys</span>
+      <span class="lg lg-4">Hoshizora</span>
+      <span class="lg lg-5">yuzu.dev</span>
+      <span class="lg lg-6">Kotatsu Inc.</span>
+    </div>
+  </div>
+</section>
+
+<section aria-label="Key figures">
+  <div class="wrap">
+    <div class="stats">
+      <div><b>99.99%</b><span>uptime SLA<sup>¹</sup></span></div>
+      <div><b>312</b><span>edge locations worldwide</span></div>
+      <div><b>9</b><span>lives per instance</span></div>
+      <div><b>4 min</b><span>median support response</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="jp">機能</span> Features</span>
+      <h2>Infrastructure that purrs.</h2>
+      <p>The boring parts of hosting, done properly — so you can get back to building things.</p>
+    </div>
+    <div class="feat-grid">
+      <article class="feat">
+        <div class="kanji k-pink" aria-hidden="true">命</div>
+        <h3>Nine Lives™ failover</h3>
+        <p>Every instance is backed by eight warm standbys. When one goes down, another one wakes up. We have never needed the ninth.</p>
+      </article>
+      <article class="feat">
+        <div class="kanji k-lilac" aria-hidden="true">網</div>
+        <h3>Global edge network</h3>
+        <p>312 points of presence on six continents. Your content is cached close to your users and simply sits there, comfortably, for as long as you need it.</p>
+      </article>
+      <article class="feat">
+        <div class="kanji k-mint" aria-hidden="true">眠</div>
+        <h3>Managed Postgres</h3>
+        <p>Automatic backups every 24 hours. Internally we call them naps. Restore from any nap in the last 30 days with one command.</p>
+      </article>
+      <article class="feat">
+        <div class="kanji k-sun" aria-hidden="true">盾</div>
+        <h3>DDoS protection</h3>
+        <p>Always on, at no extra cost. Suspicious traffic is identified, isolated and hissed at before it reaches your origin.</p>
+      </article>
+      <article class="feat">
+        <div class="kanji k-pink" aria-hidden="true">速</div>
+        <h3>Zero-downtime deploys</h3>
+        <p>Rolling deploys with instant rollback. Deploys are paused daily between 14:00 and 16:00 JST. This is not negotiable.</p>
+      </article>
+      <article class="feat">
+        <div class="kanji k-lilac" aria-hidden="true">話</div>
+        <h3>Support that shows up</h3>
+        <p>Real engineers answer every ticket, around the clock. Median first response is four minutes, or one sincere slow blink.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="dom" id="domains">
+  <div class="wrap">
+    <div class="dom-card">
+      <div class="dom-copy">
+        <span class="eyebrow"><span class="jp">ドメイン</span> Domains</span>
+        <h2 class="h2">Find your project a home.</h2>
+        <p class="sub">Register a domain in seconds. Free SSL, free DNS, and WHOIS privacy included, so nobody knows where your project sleeps.</p>
+      </div>
+      <form class="dom-form" id="domForm" autocomplete="off">
+        <label for="domIn" class="sr">Domain name</label>
+        <div class="dom-input">
+          <input id="domIn" type="text" placeholder="your-project" maxlength="40" spellcheck="false" autocapitalize="off">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+        <ul class="dom-results" id="domResults" aria-live="polite"></ul>
+        <p class="dom-note">Prices shown are for the first year. Renewals may vary with mood.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-alt" id="network">
+  <div class="wrap net">
+    <div class="net-copy">
+      <span class="eyebrow"><span class="jp">ネットワーク</span> Network</span>
+      <h2 class="h2">Eight regions. 312 edge locations. One cardboard box.</h2>
+      <p class="sub">Your app runs close to your users on a network we built and maintain ourselves. Traffic is routed to the nearest awake region automatically.</p>
+      <ul class="facts">
+        <li><b>01</b>Anycast routing to the nearest healthy (and awake) region</li>
+        <li><b>02</b>Private backbone between every region, encrypted end to end</li>
+        <li><b>03</b>Automatic regional failover in under nine seconds</li>
+      </ul>
+    </div>
+    <div class="net-card">
+      <div class="net-top">
+        <h3><span class="dot"></span>Live region status</h3>
+        <span id="netClock">—</span>
+      </div>
+      <div class="net-head" aria-hidden="true"><span>Region</span><span>Status</span><span class="r">p50</span></div>
+      <ul class="net-list" id="regions">
+        <li data-base="8"><span class="where"><span class="code">nya-east-1</span><span class="city">Tokyo</span></span><span class="st"><i></i>Operational</span><span class="lat"><b>8</b> ms</span></li>
+        <li data-base="11"><span class="where"><span class="code">nya-east-2</span><span class="city">Osaka</span></span><span class="st new"><i></i>Operational <em>New</em></span><span class="lat"><b>11</b> ms</span></li>
+        <li data-base="34"><span class="where"><span class="code">nya-ap-1</span><span class="city">Singapore</span></span><span class="st"><i></i>Operational</span><span class="lat"><b>34</b> ms</span></li>
+        <li data-base="21"><span class="where"><span class="code">nya-eu-1</span><span class="city">Frankfurt</span></span><span class="st"><i></i>Operational</span><span class="lat"><b>21</b> ms</span></li>
+        <li data-base="26"><span class="where"><span class="code">nya-eu-2</span><span class="city">Helsinki</span></span><span class="st"><i></i>Operational</span><span class="lat"><b>26</b> ms</span></li>
+        <li data-base="29"><span class="where"><span class="code">nya-us-1</span><span class="city">Ohio</span></span><span class="st"><i></i>Operational · in a box</span><span class="lat"><b>29</b> ms</span></li>
+        <li data-base="31"><span class="where"><span class="code">nya-us-2</span><span class="city">Oregon</span></span><span class="st"><i></i>Operational</span><span class="lat"><b>31</b> ms</span></li>
+        <li><span class="where"><span class="code">nya-sa-1</span><span class="city">São Paulo</span></span><span class="st nap"><i></i>Napping · back 16:00 JST</span><span class="lat">zzz</span></li>
+      </ul>
+      <div class="net-foot">Measured from 312 edge locations · refreshed every 2 seconds</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="jp">料金</span> Pricing</span>
+      <h2>Simple, predictable pricing.</h2>
+      <p>Start free. Upgrade when your project gets big enough to need a bigger box.</p>
+      <div class="toggle" role="group" aria-label="Billing period">
+        <button type="button" data-period="m" aria-pressed="true">Monthly</button>
+        <button type="button" data-period="y" aria-pressed="false">Yearly <small>−2 months</small></button>
+      </div>
+    </div>
+
+    <div class="plans">
+      <article class="plan">
+        <div class="plan-top"><h3>Kitten</h3><span class="plan-jp">子猫</span></div>
+        <p class="plan-desc">For side projects, prototypes and curious paws.</p>
+        <div class="price"><span class="cur">$</span><span class="amt" data-m="0" data-y="0">0</span><span class="per">/mo</span></div>
+        <p class="billing">Free forever</p>
+        <a href="#" class="btn btn-ghost btn-w" data-toast="signup">Start for free</a>
+        <ul class="feats">
+          <li>1 shared vCPU (it doesn't love sharing)</li>
+          <li>512 MB RAM</li>
+          <li>1 life</li>
+          <li>Free <code>.neko.run</code> subdomain</li>
+          <li>Community forum support</li>
+        </ul>
+      </article>
+
+      <article class="plan hot">
+        <span class="sticker">Most adopted ♡</span>
+        <div class="plan-top"><h3>Housecat</h3><span class="plan-jp">家猫</span></div>
+        <p class="plan-desc">For production apps that need a warm, reliable home.</p>
+        <div class="price"><span class="cur">$</span><span class="amt" data-m="9" data-y="7.50">9</span><span class="per">/mo</span></div>
+        <p class="billing" data-m="Billed monthly" data-y="$90 billed yearly">Billed monthly</p>
+        <a href="#" class="btn btn-primary btn-w" data-toast="plan">Adopt Housecat</a>
+        <ul class="feats">
+          <li>2 dedicated vCPU</li>
+          <li>4 GB RAM</li>
+          <li>9 lives</li>
+          <li>Custom domains + automatic SSL</li>
+          <li>Daily naps (backups), 30-day retention</li>
+          <li>Email support</li>
+        </ul>
+      </article>
+
+      <article class="plan">
+        <div class="plan-top"><h3>Big Cat</h3><span class="plan-jp">大猫</span></div>
+        <p class="plan-desc">For teams with real traffic and real opinions.</p>
+        <div class="price"><span class="cur">$</span><span class="amt" data-m="49" data-y="41">49</span><span class="per">/mo</span></div>
+        <p class="billing" data-m="Billed monthly" data-y="$492 billed yearly">Billed monthly</p>
+        <a href="#" class="btn btn-ghost btn-w" data-toast="plan">Adopt Big Cat</a>
+        <ul class="feats">
+          <li>8 vCPU, 32 GB RAM</li>
+          <li>9 lives + priority revival</li>
+          <li>99.99% uptime SLA¹</li>
+          <li>Private networking</li>
+          <li>Priority support, within 4 business naps</li>
+        </ul>
+      </article>
+
+      <article class="plan">
+        <div class="plan-top"><h3>Maneki-neko</h3><span class="plan-jp">招き猫</span></div>
+        <p class="plan-desc">For enterprises that would like their infrastructure to bring good fortune.</p>
+        <div class="price custom"><span class="amt">Custom</span></div>
+        <p class="billing">Let's talk</p>
+        <a href="#" class="btn btn-ghost btn-w" data-toast="sales">Contact sales</a>
+        <ul class="feats">
+          <li>Dedicated hardware</li>
+          <li>SSO, SCIM and audit logs</li>
+          <li>Bring your own box</li>
+          <li>Named account manager (has a favourite spot)</li>
+          <li>Fortune not guaranteed</li>
+        </ul>
+      </article>
+    </div>
+    <p class="plan-fine">Prices in USD, excluding tax and treats. Lives are not transferable between instances. Naps are non-refundable.<br>¹ Excluding the daily scheduled nap window (14:00–16:00 JST).</p>
+  </div>
+</section>
+
+<section class="sec sec-alt" id="customers">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="jp">声</span> Customers</span>
+      <h2>Developers seem to like it.</h2>
+      <p>We asked a few of them. Most said yes.</p>
+    </div>
+    <div class="quotes">
+      <figure class="quote">
+        <blockquote>“We moved forty services over in a weekend and p95 latency dropped by half. The CLI occasionally prints a cat. We've made peace with it.”</blockquote>
+        <figcaption><span class="ava a-pink">HT</span><span><b>Haruka T.</b><small>Platform Lead, Mochi Labs</small></span></figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>“Their support engineer fixed our DNS at 3am, then stayed on the call for another twenty minutes without saying anything. Strangely reassuring.”</blockquote>
+        <figcaption><span class="ava a-mint">DO</span><span><b>Daniel O.</b><small>CTO, Tanuki Capital</small></span></figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>“Best hosting I've used in ten years. I still don't fully understand the nap window, but I've stopped deploying at 2pm and my life is genuinely better.”</blockquote>
+        <figcaption><span class="ava a-lilac">SR</span><span><b>Sofia R.</b><small>Independent developer</small></span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="jp">質問</span> FAQ</span>
+      <h2>Questions, answered.</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Is nekohosting a real company?</summary>
+        <p>We get asked this surprisingly often. We are registered, we have servers, and the servers have names. Make of that what you will.</p>
+      </details>
+      <details>
+        <summary>What exactly is the nap window?</summary>
+        <p>Between 14:00 and 16:00 JST, new deploys are queued instead of executed. Everything already running keeps running. The infrastructure team rests. Incident rates have dropped 30% since we introduced it, and we no longer question it.</p>
+      </details>
+      <details>
+        <summary>What happens when an instance uses all nine lives?</summary>
+        <p>It hasn't happened yet. There is a runbook. It is one page long and mostly a drawing.</p>
+      </details>
+      <details>
+        <summary>Where are your data centers?</summary>
+        <p>Tokyo, Osaka, Singapore, Frankfurt, Helsinki, Oregon and São Paulo, all in Tier III facilities. The Ohio region runs out of a large cardboard box, at its own request.</p>
+      </details>
+      <details>
+        <summary>Do you support Docker?</summary>
+        <p>Yes. Containers of any size are welcome. Honestly, any box.</p>
+      </details>
+      <details>
+        <summary>Can I get a refund?</summary>
+        <p>Yes — within 30 days, no questions asked. Please don't ask the server directly. It takes it personally.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-in">
+      <div class="cta-jp" aria-hidden="true">ネコ</div>
+      <h2>Adopt a server today.</h2>
+      <p>Setup takes about 40 seconds. Slightly longer if it's sleeping on the keyboard.</p>
+      <div class="cta-btns">
+        <a href="#" class="btn btn-primary" data-toast="signup">Get started — free</a>
+        <a href="#" class="btn btn-ghost" data-toast="sales">Talk to sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="nekohosting home">
+          <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M9 26 L15 6 L28 17 L36 17 L49 6 L55 26 V48 a10 10 0 0 1-10 10 H19 a10 10 0 0 1-10-10z" fill="#ff6fae" stroke="#231a33" stroke-width="4" stroke-linejoin="round"/>
+            <circle cx="24" cy="35" r="4.5" fill="#231a33"/><circle cx="40" cy="35" r="4.5" fill="#231a33"/>
+            <circle cx="25.5" cy="33.5" r="1.4" fill="#fff"/><circle cx="41.5" cy="33.5" r="1.4" fill="#fff"/>
+            <path d="M27 43 q2.5 3 5 0 q2.5 3 5 0" fill="none" stroke="#231a33" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+          <span class="brand-word"><b>neko</b>hosting</span>
+        </a>
+        <p>Cloud hosting for people who build things, and the small creatures who sit on them.</p>
+        <button class="status-btn" type="button" data-toast="status"><span class="dot"></span>All systems purring</button>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Compute</a></li>
+          <li><a href="#network">Edge network</a></li>
+          <li><a href="#features">Managed Postgres</a></li>
+          <li><a href="#" data-toast="page">Object storage</a></li>
+          <li><a href="#domains">Domains</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="#" data-toast="docs">Documentation</a></li>
+          <li><a href="#" data-toast="docs">CLI reference</a></li>
+          <li><a href="#" data-toast="docs">API</a></li>
+          <li><a href="#network">Status</a></li>
+          <li><a href="#" data-toast="page">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#" data-toast="page">About</a></li>
+          <li><a href="#" data-toast="careers">Careers</a><span class="hiring">Hiring</span></li>
+          <li><a href="#" data-toast="page">Blog</a></li>
+          <li><a href="#" data-toast="page">Press kit</a></li>
+          <li><a href="#" data-toast="sales">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#" data-toast="page">Terms of service</a></li>
+          <li><a href="#" data-toast="page">Privacy</a></li>
+          <li><a href="#" data-toast="page">SLA</a></li>
+          <li><a href="#" data-toast="page">Acceptable nap policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="badges" aria-label="Compliance">
+      <span>SOC 2 TYPE II</span><span>ISO 27001</span><span>GDPR</span><span>NYA 9001</span>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Nekohosting K.K. · <span class="jp">ネコホスティング株式会社</span> · Est. 2019.02.22</span>
+      <span>Not affiliated with any individual cat.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-ico" aria-hidden="true">✦</span><span id="toastText"></span></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  /* ---------- toasts ---------- */
+  const MSG = {
+    signup: "Sign-ups are paused while we move into a bigger box. Please try again after the nap window.",
+    login: "The auth server is asleep on a warm laptop. We'd rather not wake it.",
+    docs: "The docs are being rewritten. Someone sat on the keyboard. ( ˘ω˘ )",
+    sales: "Sales has been notified. One of them looked up, briefly.",
+    plan: "Added to cart. The cart was then pushed off the table. We're looking into it.",
+    careers: "We're hiring SREs. Must be comfortable working alongside fur.",
+    page: "This page is napping. It should be back around 16:00 JST.",
+    status: "All systems purring. Last incident: a mug was knocked off rack B4 (resolved)."
+  };
+  const toast = $('#toast'), toastText = $('#toastText');
+  let toastTimer;
+  function say(text) {
+    toastText.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 4200);
+  }
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-toast]');
+    if (!el) return;
+    e.preventDefault();
+    say(MSG[el.dataset.toast] || MSG.page);
+  });
+
+  /* ---------- uptime since 2019-02-22 02:22 JST (nyan nyan nyan) ---------- */
+  const born = Date.UTC(2019, 1, 21, 17, 22, 0);
+  const uptime = $('#uptime');
+  const pad = n => String(n).padStart(2, '0');
+  function tickUptime() {
+    let s = Math.floor((Date.now() - born) / 1000);
+    const d = Math.floor(s / 86400); s %= 86400;
+    const h = Math.floor(s / 3600); s %= 3600;
+    const m = Math.floor(s / 60); s %= 60;
+    uptime.textContent = `${d.toLocaleString('en-US')}d ${pad(h)}:${pad(m)}:${pad(s)}`;
+  }
+  tickUptime(); setInterval(tickUptime, 1000);
+
+  /* ---------- mascot: eyes, blinking, petting ---------- */
+  const mascot = $('#mascot');
+  const eyes = $$('.eye', mascot).map(g => ({ iris: $('.iris', g), pupil: $('.pupil', g) }));
+  let px = 0, py = 0, raf = 0;
+  function look() {
+    raf = 0;
+    for (const e of eyes) {
+      const r = e.iris.getBoundingClientRect();
+      const dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2);
+      const d = Math.hypot(dx, dy) || 1, k = Math.min(d / 160, 1);
+      e.pupil.setAttribute('transform', `translate(${(dx / d * 7 * k).toFixed(2)} ${(dy / d * 8 * k).toFixed(2)})`);
+    }
+  }
+  if (!reduce) {
+    addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; if (!raf) raf = requestAnimationFrame(look); }, { passive: true });
+    const blink = () => {
+      mascot.classList.add('blink');
+      setTimeout(() => mascot.classList.remove('blink'), 130);
+      if (Math.random() < .25) setTimeout(() => { mascot.classList.add('blink'); setTimeout(() => mascot.classList.remove('blink'), 110); }, 260);
+      setTimeout(blink, 2400 + Math.random() * 3600);
+    };
+    setTimeout(blink, 1800);
+  }
+
+  const LINES = [
+    "nya.",
+    "all systems operational.",
+    "please do not unplug me.",
+    "i am load-balanced and i am at peace.",
+    "your deploy is safe with me.",
+    "i was not asleep. i was caching.",
+    "uptime is a state of mind.",
+    "( ˘ω˘ )"
+  ];
+  const bubble = $('#bubble');
+  let line = 0, bubbleTimer, happyTimer;
+  function pet(text) {
+    bubble.textContent = text || LINES[line++ % LINES.length];
+    bubble.classList.add('show');
+    mascot.classList.add('is-happy');
+    clearTimeout(bubbleTimer); clearTimeout(happyTimer);
+    happyTimer = setTimeout(() => mascot.classList.remove('is-happy'), 1100);
+    bubbleTimer = setTimeout(() => bubble.classList.remove('show'), 2600);
+  }
+  $('#mascotBtn').addEventListener('click', () => pet());
+  let keys = '';
+  addEventListener('keydown', e => {
+    if (e.target.closest('input, textarea')) return;
+    keys = (keys + e.key.toLowerCase()).slice(-3);
+    if (keys === 'nya') pet('nya!');
+  });
+
+  /* ---------- terminal ---------- */
+  const term = $('#term');
+  const TERM = [
+    ['<span class="t-mute">~/my-app</span> <span class="t-pink">$</span> npx neko deploy', 650],
+    ['<span class="t-lilac">(=^･ω･^=)</span> nekohosting cli 9.0.3', 500],
+    ['<span class="t-mute">›</span> build           <span class="t-mint">done</span> <span class="t-mute">2.1s</span>', 800],
+    ['<span class="t-mute">›</span> upload 42 files <span class="t-mint">done</span>', 600],
+    ['<span class="t-mute">›</span> wake server     <span class="t-sun">stretching…</span>', 1400],
+    ['<span class="t-mute">›</span> region          nya-east-1', 600],
+    ['<span class="t-mint">✓</span> live → <span class="t-url">my-app.neko.run</span>', 700],
+    ['<span class="t-mute">~/my-app</span> <span class="t-pink">$</span> <span class="cursor"></span>', 0]
+  ];
+  if (reduce) {
+    term.innerHTML = TERM.map(([h]) => `<span class="l">${h}</span>`).join('');
+  } else {
+    let i = 0;
+    const next = () => {
+      if (i >= TERM.length) return;
+      const [html, wait] = TERM[i++];
+      term.insertAdjacentHTML('beforeend', `<span class="l">${html}</span>`);
+      setTimeout(next, wait);
+    };
+    setTimeout(next, 700);
+  }
+
+  /* ---------- domains ---------- */
+  const TLDS = [
+    { t: '.neko', p: '12.00', tag: 'Premium' },
+    { t: '.nya', p: '3.99' },
+    { t: '.meow', p: '6.50' },
+    { t: '.moe', p: '9.00' },
+    { t: '.cat', off: 'Taken (by a cat)' },
+    { t: '.dog', off: 'Not available in your region' }
+  ];
+  const domIn = $('#domIn'), domResults = $('#domResults');
+  const clean = v => v.toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/^-+|-+$/g, '').slice(0, 40);
+  function renderDomains() {
+    const name = clean(domIn.value) || 'your-project';
+    domResults.replaceChildren(...TLDS.map(d => {
+      const li = document.createElement('li');
+      if (d.off) li.className = 'off';
+      const n = document.createElement('span');
+      n.className = 'dom-name';
+      n.append(name, Object.assign(document.createElement('b'), { textContent: d.t }));
+      li.append(n);
+      if (d.tag) li.append(Object.assign(document.createElement('span'), { className: 'tag', textContent: d.tag }));
+      const spacer = document.createElement('span'); spacer.className = 'spacer'; li.append(spacer);
+      if (d.off) {
+        li.append(Object.assign(document.createElement('span'), { className: 'dom-taken', textContent: d.off }));
+      } else {
+        const price = document.createElement('span');
+        price.className = 'dom-price';
+        price.append(`$${d.p}`, Object.assign(document.createElement('small'), { textContent: '/yr' }));
+        const btn = Object.assign(document.createElement('button'), { type: 'button', className: 'btn btn-ghost', textContent: 'Adopt' });
+        btn.addEventListener('click', () => say(`${name}${d.t} is yours for the next 9 minutes. Please avoid sudden movements.`));
+        li.append(price, btn);
+      }
+      return li;
+    }));
+  }
+  $('#domForm').addEventListener('submit', e => { e.preventDefault(); renderDomains(); });
+  renderDomains();
+
+  /* ---------- regions ---------- */
+  const rows = $$('#regions li[data-base]');
+  const netClock = $('#netClock');
+  function tickNet() {
+    for (const li of rows) {
+      const base = +li.dataset.base;
+      $('.lat b', li).textContent = Math.max(1, Math.round(base + (Math.random() * 5 - 2)));
+    }
+    const jst = new Date(Date.now() + 9 * 3600e3);
+    netClock.textContent = `${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}:${pad(jst.getUTCSeconds())} JST`;
+  }
+  tickNet(); setInterval(tickNet, 2000);
+
+  /* ---------- pricing toggle ---------- */
+  const toggles = $$('.toggle button');
+  toggles.forEach(b => b.addEventListener('click', () => {
+    const p = b.dataset.period;
+    toggles.forEach(t => t.setAttribute('aria-pressed', String(t === b)));
+    $$('.amt[data-m]').forEach(a => a.textContent = a.dataset[p]);
+    $$('.billing[data-m]').forEach(a => a.textContent = a.dataset[p]);
+  }));
+})();
+</script>
+</body>
+</html>
